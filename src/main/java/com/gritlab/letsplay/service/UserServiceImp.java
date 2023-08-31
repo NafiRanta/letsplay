@@ -4,6 +4,7 @@ import com.gritlab.letsplay.exception.UserCollectionException;
 import com.gritlab.letsplay.model.User;
 import com.gritlab.letsplay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -17,6 +18,9 @@ import java.util.Optional;
 public class UserServiceImp implements UserService{
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public void createUser(User user) throws ConstraintViolationException, UserCollectionException {
         Optional<User> userOptional = userRepository.findByUser(user.getEmail());
@@ -24,6 +28,7 @@ public class UserServiceImp implements UserService{
         if(userOptional.isPresent()){
            throw new UserCollectionException(UserCollectionException.UserAlreadyExistException());
         } else{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
     }

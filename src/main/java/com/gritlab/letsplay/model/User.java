@@ -1,5 +1,7 @@
 package com.gritlab.letsplay.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,12 +10,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection="users")
+
 public class User {
     @Id
     private String id;
@@ -41,8 +45,5 @@ public class User {
     @NotNull(message = "User role cannot be null")
     @Field
     private Role role;
-
-
-
 
 }
