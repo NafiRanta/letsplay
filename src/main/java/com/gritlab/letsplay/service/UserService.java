@@ -16,4 +16,6 @@ public interface UserService {
     public void updateUser(String id, User user) throws UserCollectionException;
 
     public void deleteUserById(String id) throws UserCollectionException;
+
+
 }

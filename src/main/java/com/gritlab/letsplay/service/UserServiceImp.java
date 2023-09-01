@@ -1,6 +1,9 @@
 package com.gritlab.letsplay.service;
 
+import com.gritlab.letsplay.config.FieldValidator;
+import com.gritlab.letsplay.exception.ProductCollectionException;
 import com.gritlab.letsplay.exception.UserCollectionException;
+import com.gritlab.letsplay.model.Product;
 import com.gritlab.letsplay.model.User;
 import com.gritlab.letsplay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +26,8 @@ public class UserServiceImp implements UserService{
     private PasswordEncoder passwordEncoder;
     @Override
     public void createUser(User user) throws ConstraintViolationException, UserCollectionException {
+        FieldValidator.validateUser(user);
         Optional<User> userOptional = userRepository.findByUser(user.getEmail());
-        System.out.println("userOptional: " + userOptional);
         if(userOptional.isPresent()){
            throw new UserCollectionException(UserCollectionException.UserAlreadyExistException());
         } else{
@@ -84,4 +87,6 @@ public class UserServiceImp implements UserService{
             userRepository.deleteById(id);
         }
     }
+
+
 }
