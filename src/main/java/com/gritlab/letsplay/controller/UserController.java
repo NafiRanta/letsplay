@@ -44,7 +44,6 @@ public class UserController {
     }
 
     @GetMapping("/users/all")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getAllUsers(){
         List<User> userList = userService.getAllUsers();
         return new ResponseEntity<>(userList, userList.size() > 0 ? HttpStatus.OK: HttpStatus.NOT_FOUND);
@@ -103,7 +102,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteUserById(@PathVariable("id") String id){
         try{
             userService.deleteUserById(id);
