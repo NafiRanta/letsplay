@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.UUID;
+
 
 @Data
 @Getter
@@ -44,6 +46,11 @@ public class User {
 
     @NotNull(message = "User role cannot be null")
     @Field
-    private Role role;
+    private String role;
+
+    public String uuidGenerator() {
+        // Implement logic to generate a unique product ID, e.g., using UUID
+        return UUID.randomUUID().toString();
+    }
 
 }
