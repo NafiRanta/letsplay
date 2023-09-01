@@ -20,4 +20,8 @@ public class ProductCollectionException extends Exception {
     public static String ProductAlreadyExistException(){
         return "Product already exist!";
     }
+
+    public static String UserNotFoundException(){
+        return "User not found!";
+    }
 }
