@@ -2,7 +2,9 @@ package com.gritlab.letsplay.service;
 
 import com.gritlab.letsplay.exception.ProductCollectionException;
 import com.gritlab.letsplay.model.Product;
+import com.gritlab.letsplay.model.User;
 import com.gritlab.letsplay.repository.ProductRepository;
+import com.gritlab.letsplay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +18,20 @@ import java.util.Optional;
 public class ProductServiceImp implements ProductService{
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public void createProduct(Product product) throws ConstraintViolationException, ProductCollectionException, ProductCollectionException {
         Optional<Product> productOptional = productRepository.findByProduct(product);
-        System.out.println("productOptional: " + productOptional);
-        if(productOptional.isPresent()){
+        System.out.println("userId: " + product.getUserId());
+        Optional <User> userOptional = userRepository.findById(product.getUserId());
+        System.out.println("useroptional: " + userOptional);
+
+        if(productOptional.isPresent() ){
             throw new ProductCollectionException(ProductCollectionException.ProductAlreadyExistException());
-        } else{
+        } else if (userOptional.isEmpty()){
+            throw new ProductCollectionException(ProductCollectionException.UserNotFoundException());
+        } else {
             productRepository.save(product);
         }
     }
