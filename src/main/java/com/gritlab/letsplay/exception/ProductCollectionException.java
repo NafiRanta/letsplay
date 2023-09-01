@@ -21,7 +21,15 @@ public class ProductCollectionException extends Exception {
         return "Product already exist!";
     }
 
+    public static String NoChangesMadeException(){
+        return "No changes to update!";
+    }
+
     public static String UserNotFoundException(){
         return "User not found!";
+    }
+
+    public static String NullException(){
+        return " cannot be empty!";
     }
 }

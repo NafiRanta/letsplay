@@ -20,4 +20,12 @@ public class UserCollectionException extends Exception {
     public static String UserAlreadyExistException(){
         return "User already exist!";
     }
+
+    public static String NullException(){
+        return " cannot be empty!";
+    }
+
+    public static String InvalidEmailException(){return "Invalid email format!";}
+
+    public static String InvalidRoleException(){return " has to be in either ROLE_ADMIN or ROLE_USER format!";}
 }
