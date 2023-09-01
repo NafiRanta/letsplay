@@ -18,4 +18,6 @@ public class ValidationConfig {
     public LocalValidatorFactoryBean validator(){
         return new LocalValidatorFactoryBean();
     }
+
+
 }

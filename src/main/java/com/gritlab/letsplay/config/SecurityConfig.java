@@ -22,6 +22,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.UUID;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -39,7 +41,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/products/**", "/newUser", "/users/authenticate").permitAll()
+                .requestMatchers("/products/**", "/users/new", "/users/authenticate").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/users/**")
                 .authenticated().and()
@@ -66,4 +68,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
 }
