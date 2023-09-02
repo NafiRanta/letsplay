@@ -50,9 +50,10 @@ public class FieldValidator {
             // check if role enum is either user.getRole() is "ROLE_ADMIN" or "ROLE_USER"
             if (!(user.getRole().equals("ROLE_ADMIN")  || user.getRole().equals("ROLE_USER"))) {
                 throw new UserCollectionException("User role" + UserCollectionException.InvalidRoleException());
-            }else {
-                throw new UserCollectionException("User role" + UserCollectionException.NullException());
             }
+            user.setRole(user.getRole().trim());
+        }else {
+            throw new UserCollectionException("User role" + UserCollectionException.NullException());
         }
 
     }
