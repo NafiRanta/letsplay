@@ -1,8 +1,10 @@
 package com.gritlab.letsplay.controller;
 
+import com.gritlab.letsplay.config.FieldValidator;
 import com.gritlab.letsplay.exception.UserCollectionException;
 import com.gritlab.letsplay.model.AuthRequest;
 import com.gritlab.letsplay.model.User;
+import com.gritlab.letsplay.repository.UserRepository;
 import com.gritlab.letsplay.service.JwtService;
 import com.gritlab.letsplay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +12,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
+
+import static com.gritlab.letsplay.config.FieldValidator.hashPassword;
 
 @RestController
 public class UserController {
@@ -33,15 +42,43 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/users/authenticate")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest){
-       Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authentication.isAuthenticated()){
-            return jwtService.generateToken(authRequest.getUsername());
+    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws NoSuchAlgorithmException {
+        Optional<User> userOptional = userRepository.findByUser(authRequest.getUsername());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            String storedPassword = user.getPassword(); // This should contain the stored salted and hashed password
+            System.out.println("storedPassword: " + storedPassword);
+
+            String hashedAuthPassword = FieldValidator.hashPassword(authRequest.getPassword());
+            System.out.println("authPassword: " + authRequest.getPassword());
+            System.out.println("hashedAuthPassword " + hashedAuthPassword);
+
+            // take from storedSaltedPassword from $2a$10$ onwards
+
+
+            String passwordToCheck = storedPassword.replaceFirst("^\\$2a\\$10\\$", "") ;
+            System.out.println("passwordToCheck : " + passwordToCheck);
+
+
+            // Compare the stored salted and hashed password with the newly generated hash
+            if (passwordToCheck.equals(storedPassword)) {
+                return jwtService.generateToken(authRequest.getUsername());
+            } else {
+                throw new BadCredentialsException("Invalid password");
+            }
         } else {
-            throw new UsernameNotFoundException("invalid user request!");
+            throw new UsernameNotFoundException("User not found");
         }
     }
+
 
     @GetMapping("/users/all")
     public ResponseEntity<?> getAllUsers(){
@@ -111,5 +148,6 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
 
 }

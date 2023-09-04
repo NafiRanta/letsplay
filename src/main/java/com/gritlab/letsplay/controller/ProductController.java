@@ -7,6 +7,7 @@ import com.gritlab.letsplay.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
@@ -48,6 +49,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/update/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateProductById(@PathVariable("id") String id, @RequestBody Product product){
         try{
             productService.updateProduct(id, product);
@@ -60,6 +62,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProductById(@PathVariable("id") String id){
         try{
             productService.deleteProductById(id);
