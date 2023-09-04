@@ -5,6 +5,8 @@ import com.gritlab.letsplay.exception.UserCollectionException;
 import com.gritlab.letsplay.model.Product;
 import com.gritlab.letsplay.model.User;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,6 +81,22 @@ public class FieldValidator {
         } else {
             throw new ProductCollectionException("Product userId" + ProductCollectionException.NullException());
         }
+    }
+
+    public static String hashPassword(String password) throws NoSuchAlgorithmException {
+        // Create an instance of the SHA-256 message digest
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+        // Hash the password bytes
+        byte[] hashedBytes = digest.digest(password.getBytes());
+
+        // Convert the hashed bytes to a hexadecimal string
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte b : hashedBytes) {
+            stringBuilder.append(String.format("%02x", b));
+        }
+
+        return stringBuilder.toString();
     }
 }
 
