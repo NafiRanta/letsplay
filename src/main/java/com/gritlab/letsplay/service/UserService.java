@@ -4,10 +4,11 @@ import com.gritlab.letsplay.exception.UserCollectionException;
 import com.gritlab.letsplay.model.User;
 
 import javax.validation.ConstraintViolationException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface UserService {
-    public void createUser(User user)throws ConstraintViolationException, UserCollectionException;
+    public void createUser(User user) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException;
 
     public List<User> getAllUsers();
 
