@@ -4,6 +4,7 @@ import com.gritlab.letsplay.config.FieldValidator;
 import com.gritlab.letsplay.exception.UserCollectionException;
 import com.gritlab.letsplay.model.AuthRequest;
 import com.gritlab.letsplay.model.User;
+import com.gritlab.letsplay.model.UserDTO;
 import com.gritlab.letsplay.repository.UserRepository;
 import com.gritlab.letsplay.service.JwtService;
 import com.gritlab.letsplay.service.UserService;
@@ -27,6 +28,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.gritlab.letsplay.config.FieldValidator.hashPassword;
 
@@ -83,7 +85,11 @@ public class UserController {
     @GetMapping("/users/all")
     public ResponseEntity<?> getAllUsers(){
         List<User> userList = userService.getAllUsers();
-        return new ResponseEntity<>(userList, userList.size() > 0 ? HttpStatus.OK: HttpStatus.NOT_FOUND);
+        List<UserDTO> userDTOList = userList.stream()
+                .map(user -> new UserDTO(user.getId(), user.getName(), user.getRole()))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(userDTOList, userDTOList.size() > 0? HttpStatus.OK: HttpStatus.NOT_FOUND);
+       // return new ResponseEntity<>(userList, userList.size() > 0 ? HttpStatus.OK: HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/users/new")
@@ -111,11 +117,12 @@ public class UserController {
     ) {
         try {
             User user = userService.getSingleUser(id);
+            UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getRole());
             // Check if the authenticated user's username matches the requested user's id
             if (userDetails.getUsername().equals(user.getEmail()) ||
                     userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
             ){
-                return new ResponseEntity<>(user, HttpStatus.OK);
+                return new ResponseEntity<>(userDTO, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
             }
