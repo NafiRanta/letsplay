@@ -5,6 +5,7 @@ import com.gritlab.letsplay.exception.ProductCollectionException;
 import com.gritlab.letsplay.exception.UserCollectionException;
 import com.gritlab.letsplay.model.Product;
 import com.gritlab.letsplay.model.User;
+import com.gritlab.letsplay.model.UserDTO;
 import com.gritlab.letsplay.repository.ProductRepository;
 import com.gritlab.letsplay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class UserServiceImp implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public void createUser(User user) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException {
         FieldValidator.validateUser(user);
@@ -114,6 +116,5 @@ public class UserServiceImp implements UserService{
 
         }
     }
-
 
 }
