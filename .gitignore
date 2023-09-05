@@ -1,0 +1,4 @@
+# SSL/TLS Certificates and Keys
+cert.pem
+key.pem
+keystore.p12
