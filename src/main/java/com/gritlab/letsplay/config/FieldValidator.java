@@ -27,7 +27,7 @@ public class FieldValidator {
 
     public static void validateUser(User user) throws UserCollectionException {
         if (user.getName()!= null) {
-            user.setName(user.getName().trim());
+            user.setName(removeExtraSpaces(user.getName()).trim());
         } else {
             throw new UserCollectionException("User name" + UserCollectionException.NullException());
         }
@@ -43,6 +43,11 @@ public class FieldValidator {
             throw new UserCollectionException("User email" + UserCollectionException.NullException());
         }
         if (user.getPassword()!= null) {
+            if (user.getPassword().length() < 4) {
+                throw new UserCollectionException("User password" + UserCollectionException.PasswordLengthException());
+            } else if (user.getPassword().contains(" ")){
+                throw new UserCollectionException(UserCollectionException.InvalidPassword());
+            }
             user.setPassword(user.getPassword().trim()); // Trim the ID field as well
         } else {
             throw new UserCollectionException("User password" + UserCollectionException.NullException());
@@ -50,7 +55,7 @@ public class FieldValidator {
 
         if (user.getRole()!= null){
             // check if role enum is either user.getRole() is "ROLE_ADMIN" or "ROLE_USER"
-            if (!(user.getRole().equals("ROLE_ADMIN")  || user.getRole().equals("ROLE_USER"))) {
+            if (!(user.getRole().trim().equals("ROLE_ADMIN")  || user.getRole().trim().equals("ROLE_USER"))) {
                 throw new UserCollectionException("User role" + UserCollectionException.InvalidRoleException());
             }
             user.setRole(user.getRole().trim());
@@ -62,14 +67,14 @@ public class FieldValidator {
 
     public static void validateProduct(Product product) throws ProductCollectionException {
         if (product.getName()!= null) {
-            product.setName(product.getName().trim());
+            product.setName(removeExtraSpaces(product.getName()).trim());
             System.out.println("product name: " + product.getName());
         } else {
             throw new ProductCollectionException("Product name" + ProductCollectionException.NullException());
         }
         // if product.getDescription() is not null, trim, else throw exception
         if (product.getDescription()!= null) {
-            product.setDescription(product.getDescription().trim());
+            product.setDescription(removeExtraSpaces(product.getDescription()).trim());
             System.out.println("product description: " + product.getDescription());
         } else {
             throw new ProductCollectionException("Product description" + ProductCollectionException.NullException());
@@ -97,6 +102,10 @@ public class FieldValidator {
         }
 
         return stringBuilder.toString();
+    }
+
+    private static String removeExtraSpaces(String value) {
+        return value.replaceAll("\s+", " ").trim();
     }
 }
 

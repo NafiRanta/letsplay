@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,7 +25,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Document(collection="users")
 
-public class User implements UserDetails {
+public class User {
     @Id
     private String id;
 
@@ -45,6 +46,7 @@ public class User implements UserDetails {
     @NotBlank(message = "User password cannot be empty")
    // @NotNull(message = "User password cannot be null")
     @Field
+    @Size(min = 4, max = 1000000000, message = "password must be between 4 and 50 characters")
     private String password;
 
 
@@ -56,46 +58,46 @@ public class User implements UserDetails {
         // Implement logic to generate a unique product ID, e.g., using UUID
         return UUID.randomUUID().toString();
     }
-
-    @Override
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isEnabled() {
-        return true;
-    }
+//
+//    @Override
+//    @JsonIgnore
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
+//
+//    @Override
+//    @JsonIgnore
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    @Override
+//    @JsonIgnore
+//    public String getUsername() {
+//        return email;
+//    }
+//
+//    @Override
+//    @JsonIgnore
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    @JsonIgnore
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    @JsonIgnore
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    @JsonIgnore
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

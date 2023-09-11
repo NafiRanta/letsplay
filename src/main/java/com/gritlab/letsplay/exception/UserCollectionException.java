@@ -28,7 +28,13 @@ public class UserCollectionException extends Exception {
         return " cannot be empty!";
     }
 
+    public static String PasswordLengthException(){
+        return " cannot be less than 4 characters!";
+    }
+
     public static String InvalidEmailException(){return "Invalid email format!";}
+
+    public static String InvalidPassword(){return "Password must not contain space!";}
 
     public static String InvalidRoleException(){return " has to be in either ROLE_ADMIN or ROLE_USER format!";}
 

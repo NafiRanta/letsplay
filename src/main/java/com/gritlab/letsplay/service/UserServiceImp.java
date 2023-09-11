@@ -34,6 +34,7 @@ public class UserServiceImp implements UserService{
 
     @Override
     public void createUser(User user) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException {
+        System.out.println("user in serviceimpl: " + user.getPassword());
         FieldValidator.validateUser(user);
         Optional<User> userOptional = userRepository.findByUser(user.getEmail());
         if(userOptional.isPresent()){

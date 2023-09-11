@@ -96,7 +96,7 @@ public class UserController {
     @PostMapping("/users/new")
     public ResponseEntity<?> createUser(@RequestBody User user){
         try {
-            System.out.println("user " + user);
+            System.out.println("user in controller: " + user);
             userService.createUser(user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (ConstraintViolationException e) {
