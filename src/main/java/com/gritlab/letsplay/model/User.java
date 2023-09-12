@@ -50,7 +50,7 @@ public class User {
     private String password;
 
 
-    @NotNull(message = "User role cannot be null")
+    //@NotNull(message = "User role cannot be null")
     @Field
     private String role;
 
@@ -58,46 +58,5 @@ public class User {
         // Implement logic to generate a unique product ID, e.g., using UUID
         return UUID.randomUUID().toString();
     }
-//
-//    @Override
-//    @JsonIgnore
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-//
-//    @Override
-//    @JsonIgnore
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    @Override
-//    @JsonIgnore
-//    public String getUsername() {
-//        return email;
-//    }
-//
-//    @Override
-//    @JsonIgnore
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    @JsonIgnore
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    @JsonIgnore
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    @JsonIgnore
-//    public boolean isEnabled() {
-//        return true;
-//    }
+
 }

@@ -98,7 +98,7 @@ public class UserController {
         try {
             System.out.println("user in controller: " + user);
             userService.createUser(user);
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+            return new ResponseEntity<>("User successfully created.", HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             System.out.println("ConstraintViolationException " + e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
@@ -139,7 +139,7 @@ public class UserController {
     public ResponseEntity<?> updateUserById(@PathVariable("id") String id, @RequestBody User user){
        try{
            userService.updateUser(id, user);
-           return new ResponseEntity<>("Update User with id " + id, HttpStatus.OK);
+           return new ResponseEntity<>("User with id " + id + " updated successfully.", HttpStatus.OK);
        } catch (ConstraintViolationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
        } catch (Exception e){
@@ -152,7 +152,7 @@ public class UserController {
     public ResponseEntity<?> deleteUserById(@PathVariable("id") String id){
         try{
             userService.deleteUserById(id);
-            return new ResponseEntity<>("Successfully deleted user with id " + id, HttpStatus.OK);
+            return new ResponseEntity<>("User with id " + id + " deleted successfully.", HttpStatus.OK);
         } catch (UserCollectionException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

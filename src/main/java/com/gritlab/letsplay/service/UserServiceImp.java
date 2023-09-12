@@ -46,6 +46,7 @@ public class UserServiceImp implements UserService{
             String hashPassword = FieldValidator.hashPassword(user.getPassword());
             String hashedSaltedPassword = salt + hashPassword;
             user.setPassword(hashedSaltedPassword);
+            user.setRole("ROLE_USER");
             userRepository.save(user);
         }
     }

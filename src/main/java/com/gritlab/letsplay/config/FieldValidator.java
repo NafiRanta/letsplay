@@ -59,8 +59,6 @@ public class FieldValidator {
                 throw new UserCollectionException("User role" + UserCollectionException.InvalidRoleException());
             }
             user.setRole(user.getRole().trim());
-        }else {
-            throw new UserCollectionException("User role" + UserCollectionException.NullException());
         }
 
     }
