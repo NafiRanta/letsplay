@@ -8,6 +8,7 @@ import com.gritlab.letsplay.model.User;
 import com.gritlab.letsplay.model.UserDTO;
 import com.gritlab.letsplay.repository.ProductRepository;
 import com.gritlab.letsplay.repository.UserRepository;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,20 +33,19 @@ public class UserServiceImp implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public UserServiceImp(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public void createUser(User user) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException {
-        System.out.println("user in serviceimpl: " + user.getPassword());
         FieldValidator.validateUser(user);
         Optional<User> userOptional = userRepository.findByUser(user.getEmail());
         if(userOptional.isPresent()){
            throw new UserCollectionException(UserCollectionException.UserAlreadyExistException());
         } else{
-            String salt = BCrypt.gensalt(12);
-            // hash user.getPassWord();
-            String password = user.getPassword();
-            String hashPassword = FieldValidator.hashPassword(user.getPassword());
-            String hashedSaltedPassword = salt + hashPassword;
-            user.setPassword(hashedSaltedPassword);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRole("ROLE_USER");
             userRepository.save(user);
         }
@@ -72,7 +72,7 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void updateUser(String id, User user) throws UserCollectionException {
+    public void updateUser(String id, User user) throws UserCollectionException, NoSuchAlgorithmException {
         FieldValidator.validateUser(user);
         Optional<User> userOptional = userRepository.findById(id);
         System.out.println("userOptional update user" + userOptional);
@@ -86,8 +86,13 @@ public class UserServiceImp implements UserService{
            User userUpdate = userOptional.get();
            userUpdate.setName(user.getName());
            userUpdate.setEmail(user.getEmail());
-           userUpdate.setPassword(user.getPassword());
-           userUpdate.setRole(user.getRole());
+           userUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+           if (user.getRole() == null){
+               userUpdate.setRole(userOptional.get().getRole());
+           } else {
+               userUpdate.setRole(user.getRole());
+           }
+
            userRepository.save(userUpdate);
         } else {
             throw new UserCollectionException(UserCollectionException.NotFoundException(id));

@@ -14,7 +14,7 @@ public interface UserService {
 
     public User getSingleUser(String id) throws UserCollectionException;
 
-    public void updateUser(String id, User user) throws UserCollectionException;
+    public void updateUser(String id, User user) throws UserCollectionException, NoSuchAlgorithmException;
 
     public void deleteUserById(String id) throws UserCollectionException;
 

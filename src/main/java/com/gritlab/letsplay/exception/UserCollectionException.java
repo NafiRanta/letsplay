@@ -38,7 +38,7 @@ public class UserCollectionException extends Exception {
 
     public static String InvalidRoleException(){return " has to be in either ROLE_ADMIN or ROLE_USER format!";}
 
-    public static String BadCredentialsException(){return "Invalid password format!";}
+    public static String BadCredentialsException(){return "Bad credentials!";}
 
-    public static String BadRequestException(){return "Bad Request!";}
+    public static String UsernameNotFound(){return "User not found!";}
 }

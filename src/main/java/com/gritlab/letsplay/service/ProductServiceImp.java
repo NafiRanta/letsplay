@@ -1,6 +1,6 @@
 package com.gritlab.letsplay.service;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import com.gritlab.letsplay.config.FieldValidator;
 import com.gritlab.letsplay.exception.ProductCollectionException;
 import com.gritlab.letsplay.model.Product;
@@ -8,8 +8,6 @@ import com.gritlab.letsplay.model.User;
 import com.gritlab.letsplay.repository.ProductRepository;
 import com.gritlab.letsplay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,6 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
