@@ -8,13 +8,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface UserService {
-    public void createUser(User user) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException;
+    public void createUser(User user, String url) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException;
 
     public List<User> getAllUsers();
 
     public User getSingleUser(String id) throws UserCollectionException;
 
-    public void updateUser(String id, User user) throws UserCollectionException, NoSuchAlgorithmException;
+    public void updateUser(String id, User user, String url) throws UserCollectionException, NoSuchAlgorithmException;
 
     public void deleteUserById(String id) throws UserCollectionException;
 

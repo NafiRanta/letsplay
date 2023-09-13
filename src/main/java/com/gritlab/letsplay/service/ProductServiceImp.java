@@ -26,16 +26,16 @@ public class ProductServiceImp implements ProductService{
 
     @Override
     public void createProduct(Product product, UserDetails userDetails) throws ConstraintViolationException, ProductCollectionException {
-        FieldValidator.validateProduct(product);
+       Optional<User> userOptional = userRepository.findByUser(userDetails.getUsername());
 
             if (product.getId() != null){
                 product.setId(product.uuidGenerator());
             }
-            Optional<User> userOptional = userRepository.findByUser(userDetails.getUsername());
             if (userOptional.isEmpty()) {
                 throw new ProductCollectionException(ProductCollectionException.UserNotFoundException());
             } else if (userDetails.getUsername().equals(userOptional.get().getEmail())){
                 product.setUserId(userOptional.get().getId());
+                FieldValidator.validateProduct(product);
                 productRepository.save(product);
             } else {
                 throw new ProductCollectionException(ProductCollectionException.AccessDeniedException());
@@ -45,7 +45,7 @@ public class ProductServiceImp implements ProductService{
     @Override
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        if (products.size() > 0){
+        if (!products.isEmpty()){
             return products;
         } else{
             return new ArrayList<Product>();
@@ -55,7 +55,7 @@ public class ProductServiceImp implements ProductService{
     @Override
     public Product getSingleProduct(String id) throws ProductCollectionException {
         Optional<Product> productOptional = productRepository.findById(id);
-        if(!productOptional.isPresent()){
+        if(productOptional.isEmpty()){
             throw new ProductCollectionException(ProductCollectionException.NotFoundException(id));
         } else{
             return productOptional.get();
@@ -65,26 +65,21 @@ public class ProductServiceImp implements ProductService{
     @Override
     public void updateProduct(String id, Product product) throws ProductCollectionException {
         Optional<Product> productOptional = productRepository.findById(id);
-
-        // if product.getName().trim() et al is not null, trim, else throw null exception
-        FieldValidator.validateProduct(product);
-
-        Optional<User> userOptional = userRepository.findById(product.getUserId().trim());
-
         if (productOptional.isPresent()) {
+            System.out.println("product userId: " + productOptional.get().getUserId());
+            FieldValidator.validateProduct(product);
+
             if (productOptional.get().getName().equals(product.getName()) &&
             productOptional.get().getDescription().equals(product.getDescription()) &&
-            productOptional.get().getPrice().equals(product.getPrice()) &&
-            productOptional.get().getUserId().equals(product.getUserId())){
+            productOptional.get().getPrice().equals(product.getPrice())){
                 throw new ProductCollectionException(ProductCollectionException.NoChangesMadeException());
-            } else if(userOptional.isEmpty()){
-                throw new ProductCollectionException(ProductCollectionException.UserNotFoundException());
             }
+
             Product productUpdate = productOptional.get();
             productUpdate.setName(product.getName());
             productUpdate.setDescription(product.getDescription());
             productUpdate.setPrice(product.getPrice());
-            productUpdate.setUserId(product.getUserId());
+            productUpdate.setUserId(productUpdate.getUserId());
             productRepository.save(productUpdate);
         } else {
             throw new ProductCollectionException(ProductCollectionException.NotFoundException(id));
@@ -94,15 +89,10 @@ public class ProductServiceImp implements ProductService{
     @Override
     public void deleteProductById(String id) throws ProductCollectionException {
         Optional<Product> productOptional = productRepository.findById(id);
-        if (!productOptional.isPresent()){
+        if (productOptional.isEmpty()){
             throw new ProductCollectionException(ProductCollectionException.NotFoundException(id));
         } else{
             productRepository.deleteById(id);
         }
     }
-
-    // create method to check for null trimmed product fields to avoid duplication
-
-
-
 }

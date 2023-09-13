@@ -39,8 +39,8 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void createUser(User user) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException {
-        FieldValidator.validateUser(user);
+    public void createUser(User user, String url) throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException {
+        FieldValidator.validateUser(user, url);
         Optional<User> userOptional = userRepository.findByUser(user.getEmail());
         if(userOptional.isPresent()){
            throw new UserCollectionException(UserCollectionException.UserAlreadyExistException());
@@ -72,8 +72,8 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void updateUser(String id, User user) throws UserCollectionException, NoSuchAlgorithmException {
-        FieldValidator.validateUser(user);
+    public void updateUser(String id, User user, String url) throws UserCollectionException, NoSuchAlgorithmException {
+        FieldValidator.validateUser(user, url);
         Optional<User> userOptional = userRepository.findById(id);
         System.out.println("userOptional update user" + userOptional);
         Optional<User> userOptionalSameName = userRepository.findByUser(user.getEmail());

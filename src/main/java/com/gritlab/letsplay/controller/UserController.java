@@ -81,7 +81,8 @@ public class UserController {
     @PostMapping("/users/new")
     public ResponseEntity<?> createUser(@RequestBody User user){
         try {
-            userService.createUser(user);
+
+            userService.createUser(user, "new");
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
@@ -120,7 +121,7 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> updateUserById(@PathVariable("id") String id, @RequestBody User user){
        try{
-           userService.updateUser(id, user);
+           userService.updateUser(id, user, "update");
            return new ResponseEntity<>("User with id " + id + " updated successfully.", HttpStatus.OK);
        } catch (ConstraintViolationException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);

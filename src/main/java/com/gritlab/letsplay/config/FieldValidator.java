@@ -20,7 +20,7 @@ public class FieldValidator {
         return matcher.matches();
     }
 
-    public static void validateUser(User user) throws UserCollectionException {
+    public static void validateUser(User user, String url) throws UserCollectionException {
         if (user.getName()!= null) {
             user.setName(removeExtraSpaces(user.getName()).trim());
         } else {
@@ -48,7 +48,7 @@ public class FieldValidator {
             throw new UserCollectionException("User password" + UserCollectionException.NullException());
         }
 
-        if (user.getRole()!= null){
+        if (user.getRole()!= null && url.equals("update") ){
             if (!(user.getRole().trim().equals("ROLE_ADMIN")  || user.getRole().trim().equals("ROLE_USER"))) {
                 throw new UserCollectionException("User role" + UserCollectionException.InvalidRoleException());
             }

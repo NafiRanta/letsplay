@@ -60,7 +60,7 @@ public class ProductController {
 
     @PutMapping("/products/update/{id}")
     @Secured({"ROLE_ADMIN"})
-    public ResponseEntity<?> updateProductById(@PathVariable("id") String id, @RequestBody Product product){
+    public ResponseEntity<?> updateProductById(@PathVariable("id") String id, @RequestBody Product product) throws ProductCollectionException {
         try{
             productService.updateProduct(id, product);
             return new ResponseEntity<>("Update Product with id " + id, HttpStatus.OK);

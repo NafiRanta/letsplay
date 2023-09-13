@@ -38,7 +38,7 @@ public class Product {
     private Double price;
 
 
-    @NotBlank(message = "Product userId cannot be empty")
+    //@NotBlank(message = "Product userId cannot be empty")
    // @NotNull(message = "Product price cannot be null")
     @Field
     private String userId;

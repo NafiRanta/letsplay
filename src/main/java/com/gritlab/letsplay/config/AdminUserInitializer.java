@@ -19,6 +19,7 @@ public class AdminUserInitializer implements CommandLineRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // this creates a default admin user at runtime
     @Override
     public void run(String... args) throws Exception {
         User adminUser = new User();

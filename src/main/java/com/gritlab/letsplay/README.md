@@ -41,18 +41,18 @@ A product has the following:
 - username: email
 - password: password
 
-## CRUD API for Users
-- create: /users/new [ALL]
-- read all: /users/all [ALLAuth]
-- read single: /users/single/{id} [ROLE_ADMIN or the authenticated user itself]
-- update: /users/update [ROLE_ADMIN]
-- delete: /users/delete [ROLE_ADMIN]
+## CRUD API endpoints for Users
+- create: https://localhost:443/users/new [ALL]
+- read all: https://localhost:443/users/all
+- read single: https://localhost:443/users/single/{id} [ALLAuth] [ROLE_ADMIN or the authenticated user itself]
+- update:https://localhost:443/users/update/{id} [ROLE_ADMIN]
+- delete: https://localhost:443/users/delete/{id} [ROLE_ADMIN]
 
-## CRUD API for Products
-- create: /products/create [ALLAuth]
-- read all: /products/all [ALL]
-- read single: /products/single/{id} [ALL]
-- update: /products/single/{id} [ROLE_ADMIN]
-- delete: /products/delete/single/{id} [ROLE_ADMIN]
+## CRUD API endpoints for Products
+- create: https://localhost:443/products/create [ALLAuth]
+- read all: https://localhost:443/products/all [ALL]
+- read single: https://localhost:443/products/single/{id} [ALL]
+- update: https://localhost:443/products/update/{id} [ROLE_ADMIN]
+- delete: https://localhost:443/products/delete/{id} [ROLE_ADMIN]
 
 
