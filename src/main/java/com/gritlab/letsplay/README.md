@@ -1,4 +1,4 @@
-## Let's Play
+    ## Let's Play
 This is a basic CRUP API application consisting of two entities namely User and Product. The application is developed using Spring Boot. 
 
 ## Setup

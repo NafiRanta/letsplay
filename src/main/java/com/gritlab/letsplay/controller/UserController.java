@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;

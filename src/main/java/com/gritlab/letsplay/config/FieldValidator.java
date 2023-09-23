@@ -37,6 +37,7 @@ public class FieldValidator {
         } else {
             throw new UserCollectionException("User email" + UserCollectionException.NullException());
         }
+
         if (user.getPassword()!= null) {
             if (user.getPassword().length() < 4) {
                 throw new UserCollectionException("User password" + UserCollectionException.PasswordLengthException());
